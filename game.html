@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<title>Dot & Boxes Game - DApp for Nebulas</title>
+	<link rel=stylesheet href=css/main.css>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+</head>
+<body>
+	<div class="mainContainer">
+		<header>
+			<div class="left">
+				<div class="logo">
+					<img src="img/logo.png">
+				</div>
+				<div class="name">
+					D&B Games
+				</div>
+			</div>
+			<div class="right">
+				<ul>
+					<li><a href="/browse.html">Browse</a></li>
+					<li><a href="/create.html">Create</a></li>
+					<li><a href="/join.html">Join</a></li>
+					<li><a href="/about.html">About</a></li>
+				</ul>
+			</div>
+		</header>
+		<section class="middle">
+			<div class="loading">
+				<div>Fetching game data, please wait..</div>
+				<div class="icon"><img class="rotate" src="img/refresh.png"></div>
+			</div>
+			<div class="waitForResults" style="display: none;">
+				<div>Please wait for the blockchain to accept your action..</div>
+				<div class="icon"><img class="rotate" src="img/refresh.png"></div>
+			</div>
+			<div class="linkToGame hideBeforeLoad">To join this game: <input type="text" id="joinLink"></div>
+			<div class="joinButton hideBeforeLoad"><button class="join" onclick="javascript:onJoinGame()">Join the game</button></div>
+			<div class="left hideBeforeLoad">
+				<div class="gameInfo">
+					<h1>Game's Information</h1>
+					<div>Status: <span id="gameStatus">..</span></div>
+					<div>Players:</div>
+					<div><span id="playerOne">..</span> vs <span id="playerTwo">..</span></div>
+					<hr>
+					<h1>Your action:</h1>
+					<div class="actionInfo myTurn">It's your turn to play!</div>
+					<div class="actionInfo notMyTurn">Waiting for your opponent. <img class="rotate" src="img/waiting.png" style="height: 20px;"></div>
+					<div class="actionInfo spectator">You are a spectator.</div>
+					<div class="actionInfo join">You can join this game: <button class="join" onclick="javascript:onJoinGame()">Join the game</button></div>
+				</div>
+			</div>
+			<div class="right hideBeforeLoad">
+				<table id="game"></table>
+			</div>
+				
+		</section>
+	</div>
+
+	<!-- All of these scripts are dependancies from the Nebulas Web Wallet -->
+	<script src=js/jquery-3.3.1.min.js></script>
+	<script src=js/nebPay.js></script>
+	
+	<!-- Front end logic for our Dapp -->
+	<script src="js/test.js"></script>
+	<script type="text/javascript">
+		"use strict";
+		firstLoad = true;
+		var gameId = new URL(window.location).searchParams.get("id");
+		txHash = gameId;
+		setInterval(function() {
+			refreshData();
+		}, 3000);
+	</script>
+
+</body>
+</html>
