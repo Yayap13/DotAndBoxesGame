@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<title>Dot & Boxes Game - DApp for Nebulas</title>
+	<link rel=stylesheet href=css/main.css>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+</head>
+<body>
+	<div class="mainContainer">
+		<header>
+			<div class="left">
+				<div class="logo">
+					<img src="img/logo.png">
+				</div>
+				<div class="name">
+					D&B Games
+				</div>
+			</div>
+			<div class="right">
+				<ul>
+					<li><a href="/DotsAndBoxesGame/create.html">Create</a></li>
+					<li><a href="/DotsAndBoxesGame/browse.html">Browse</a></li>
+					<li><a href="/DotsAndBoxesGame/about.html">About</a></li>
+				</ul>
+			</div>
+		</header>
+		<section class="middle">
+			<div class="waitForResults" style="display: none;">
+				<div><p>Please wait for the blockchain to confirm the game creation..</p><p>You'll be automatically redirected when the game is ready!</p></div>
+				<div class="icon"><img class="rotate" src="img/refresh.png"></div>
+			</div>
+			<div class="left">
+				<div class="gameInfo">
+					<h1>Game parameters:</h1>
+					<form action="javascript:;" onsubmit="javascript:onCreateGame()">
+						<label for="playerCount">Board size:</label>
+						<input type="range" id="playerCount" step="25" value="0" class="slider">
+						<label for="pseudo">Pseudo:</label><br>
+						<input class="pseudo" id="pseudo" type="text" name="pseudo" value="Anonymous"><br><br>
+						<label class="container">Allow matchmaking
+							<input id="allowMatchmaking" type="checkbox" checked="checked">
+							<span class="checkmark"></span>
+						</label>
+						<input id="createGameBtn" class="submit" type="submit" value="Create game">
+					</form>
+				</div>
+			</div>
+			<div class="right">
+				<table id="game"></table>
+			</div>>
+		</section>
+	</div>
+
+	<!-- All of these scripts are dependancies from the Nebulas Web Wallet -->
+	<script src=js/jquery-3.3.1.min.js></script>
+	<script src=js/nebPay.js></script>
+	
+	<!-- Front end logic for our Dapp -->
+	<script src="js/test.js"></script>
+	<script type="text/javascript">
+		"use strict";
+		createTable(3);
+		$("#playerCount").on("input change", function() {
+			var count = ($("#playerCount").val()*4/100)+3;
+			createTable(count);
+		});
+	</script>
+
+</body>
+</html>

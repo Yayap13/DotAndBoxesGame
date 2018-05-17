@@ -1,13 +1,14 @@
 "use strict";
-var DotAndBoxesGameContract = function() {
+var DotsAndBoxesGameContract = function() {
 	// Data stored by the smart contract
 	LocalContractStorage.defineProperty(this, "game_id")
 	LocalContractStorage.defineMapProperty(this, "tx_hash_to_game")
 
+	LocalContractStorage.defineProperty(this, "games")
 	LocalContractStorage.defineProperty(this, "stats")
 }
 
-DotAndBoxesGameContract.prototype = {
+DotsAndBoxesGameContract.prototype = {
 	// init is called once, when the contract is deployed.
 	init: function() {
 		this.game_id = 1;
@@ -16,9 +17,10 @@ DotAndBoxesGameContract.prototype = {
 		currentStats["gamesInProgress"] = 0;
 		currentStats["joinViaMatchmaking"] = 0;
 		this.stats = currentStats;
+		this.games = {};
 	},
 
-	createNewGame: function(size, name) {
+	createNewGame: function(size, name, allowMatchmaking) {
 		size = parseInt(size);
 		if(size < 3 || size > 7) {
 			throw new Error("Game size is too small or too large");
@@ -26,8 +28,23 @@ DotAndBoxesGameContract.prototype = {
 		if(Object.prototype.toString.call(name) !== "[object String]" || name.length<=0 || name.length>20) {
 			throw new Error("Your pseudo is not valid or too long");
 		}
+		if(!typeof(true) === "boolean") {
+			allowMatchmaking = true;
+		}
+		if(allowMatchmaking) {
+			var currentGames = this.games;
+			var details = {};
+			details["size"] = size;
+			details["creator"] = name;
+			details["waitingForPlayers"] = true;
+			details["creationTime"] = Date.now();
+			currentGames[Blockchain.transaction.hash] = details;
+			this.games = currentGames;
+		}
+
 		var board = {};
 		board["size"] = size;
+		board["allowMatchmaking"] = allowMatchmaking;
 		board["squares"] = new Array(size*size).fill(null);
 		board["bar"] = new Array((size*(size+1))*2).fill(null);
 		board["players"] = [Blockchain.transaction.from, null];
@@ -57,6 +74,11 @@ DotAndBoxesGameContract.prototype = {
 		}
 		if(Object.prototype.toString.call(name) !== "[object String]" || name.length<=0 || name.length>20) {
 			throw new Error("Your pseudo is not valid or too long");
+		}
+		if(board.allowMatchmaking) {
+			var currentGames = this.games;
+			currentGames[txHash].waitingForPlayers = false;
+			this.games = currentGames;
 		}
 		board.players[1] = Blockchain.transaction.from;
 		board.playerNames[1] = name;
@@ -129,6 +151,11 @@ DotAndBoxesGameContract.prototype = {
 			} else {
 				board.winner = -1;
 			}
+			if(board.allowMatchmaking) {
+				var currentGames = this.games;
+				delete currentGames[txHash];
+				this.games = currentGames;
+			}
 		}
 		this.tx_hash_to_game.put(txHash, board);
 	},
@@ -141,6 +168,12 @@ DotAndBoxesGameContract.prototype = {
 		board["whoCalled"] = Blockchain.transaction.from;
 		return board
 	},
+
+	getListOfGames: function() {
+		var games = this.games;
+		games["whoCalled"] = Blockchain.transaction.from;
+		return games
+	},
 }
 
-module.exports = DotAndBoxesGameContract
+module.exports = DotsAndBoxesGameContract

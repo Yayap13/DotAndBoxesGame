@@ -9,7 +9,7 @@ var intervalQuery; //periodically query tx results
 
 
 // Global variables used by our Dapp
-var contract_address = "n1j6cp3Q7sLuJcWEocJ4w7k6BG7HRkhwu5t";
+var contract_address = "n1z3psWuLTQFFnBFdwKgMaMrMVLCNHXH6T1";
 var txHash = "lul";
 var firstLoad = true;
 var lastBoard = null;
@@ -19,6 +19,48 @@ var waitingForResult = false;
 function waitForResult() {
 	waitingForResult = true;
 	$(".waitForResults").show();
+}
+
+function onCreateGame() {
+	$("#createGameBtn").prop('disabled', true);
+	var size = ($("#playerCount").val()*4/100)+3;
+	var pseudo = $("#pseudo").val();
+	pseudo = (pseudo == "") ? "Anonymous" : pseudo;
+	var allowMatchmaking = $("#allowMatchmaking").is(":checked");
+	console.log("size: ", size);
+	console.log("pseudo: ", pseudo);
+	console.log("allowMatchmaking: ", allowMatchmaking);
+
+	$(".waitForResults").show();
+
+	//Send transaction (here is smart contract call)
+	serialNumber = nebPay.call(contract_address, 0, "createNewGame", JSON.stringify([size, pseudo, allowMatchmaking]), {
+		listener: onCreateNewGame
+	});
+
+	function onCreateNewGame(resp) {
+		if(typeof(resp)==='string' && resp.startsWith("Error")) {
+			throw new Error(resp);
+		}
+		txHash = resp.txhash;
+		intervalQuery = setInterval(function() {
+			nebPay.simulateCall(contract_address, 0, "getGameInfo", JSON.stringify([txHash]), {
+				qrcode: {
+					showQRCode: false
+				},
+				callback:  callbackUrl,
+				listener: onGameReady  //set listener for extension transaction result
+			});
+		}, 3000);
+	}
+}
+
+function onGameReady(resp) {
+	if(typeof(resp.result)==='string' && !resp.result.startsWith("Error")) {
+		console.log("You game is ready, redirection!");
+		clearInterval(intervalQuery);
+		window.location = location.protocol + '//' + location.host + location.pathname.replace("create.html", "") + 'game.html?id=' + txHash;
+	}
 }
 
 function onBarClick(elem) {
@@ -55,10 +97,11 @@ function onJoinGame() {
 
 	//Send transaction (here is smart contract call)
 	serialNumber = nebPay.call(to, value, callFunction, callArgs, options);
+	waitForResult();
 }
 
 
-// Get data
+// Get game data
 function refreshData() {
 	var to = contract_address;
 	var value = "";
@@ -146,6 +189,22 @@ function onGameData(resp) {
 			$(".square-"+i+"").addClass("player-2");
 		}
 	}
+}
+
+// Get data
+function getListOfGames() {
+	nebPay.simulateCall(contract_address, 0, "getListOfGames", "", {
+		qrcode: {
+			showQRCode: false
+		},
+		callback:  callbackUrl,
+		listener: onGameList  //set listener for extension transaction result
+	});
+}
+
+function onGameList(resp) {
+	var data = JSON.parse(resp.result);
+	console.log(data);
 }
 
 function createTable(size) {
