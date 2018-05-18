@@ -1,22 +1,44 @@
-body {
-	font-family: 'Lato', sans-serif;
+html {
+	height: 100%;
 	margin: 0;
 	padding: 0;
+}
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: 'Lato', sans-serif;
 	background-color: #E0FBFC;
 }
-.mainContainer {
+.site{
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.site-main{
+	flex: 1 0 auto;
 	display: flex;
 	flex-wrap: wrap;
 }
 
-/* Header part */
-header {
-	width: 100%;
+.site-footer,
+.site-header {
+	flex-shrink: 0;
+}
+
+
+/*---------------------------------------------------------------------------------*/
+/* Main common parts                                                               */
+/*---------------------------------------------------------------------------------*/
+
+/* Header */
+.site-header {
 	background-color: #293241;
 	height: 80px;
 	margin-bottom: 70px;
 }
-header .left {
+.site-header .left {
 	float: left;
 }
 .left .logo {
@@ -63,17 +85,150 @@ header .left {
 	color: #EE6C4D;
 }
 
-header .right {
+.site-header .right {
 	float: right;
 }
 
+/* Footer */
+.social {
+	margin: 0 !important;
+	height: 120px;
+	background-color: #293241;
+}
+.element {
+	margin: 0 !important;
+	width: 20%;
+	text-align: center;
+	line-height: 120px;
+}
+.element a {
+	color: #e0fbfc;
+	font-size: 20px;
+	font-weight: bold;
+	text-decoration: none;
+}
+.element a:hover { color: #EE6C4D; }
+.element img {
+	width: 20px;
+	position: relative;
+	top: 4px;
+	right: 4px;
+}
 
-/* Middle part */
-section.middle {
+
+/* Responsive part */
+@media (max-width: 700px) {
+	.name {
+		display: none;
+	}
+	.element {
+		width: 100% !important;
+		background-color: #293241;
+		line-height: 56px !important;
+	}
+}
+
+
+/*---------------------------------------------------------------------------------*/
+/* Each specific pages styles                                                      */
+/*---------------------------------------------------------------------------------*/
+
+/* Loading elements */
+.loading, .waitForResults {
+	margin: 0 auto;
 	width: 100%;
+	text-align: center;
+	font-size: 32px;
+	font-style: italic;
+	padding-bottom: 26px;
+}
+
+.loading .icon, .waitForResults .icon {
+	width: 40px;
+	height: 40px;
+	margin: 0 auto;
+	padding-top: 16px;
+}
+.loading .icon img { max-height: 100%; max-width: 100%; }
+.waitForResults .icon img { max-height: 100%; max-width: 100%; }
+
+/* About page */
+.basicStyle {
+	width: 100%;
+}
+.basicStyle h1 {
+	text-align: center;
+	font-size: 26px;
+	font-style: italic;
+}
+.basicStyle div {
+	margin: 0 30px;
+}
+.about {
+	text-align: center;
+}
+hr.style { 
+	width: 100%;
+	border-top: 3px double #8c8b8b;
+}
+.statsContainer, .social {
 	display: flex;
 	flex-wrap: wrap;
 }
+
+.statistics {
+	padding-bottom: 26px;
+}
+.stats {
+	margin: 0 !important;
+	width: 50%;
+	text-align: center;
+	padding-bottom: 40px;
+	font-size: 20px;
+}
+.stats span {
+	font-weight: bold;
+	color: #EE6C4D;
+}
+
+/* Browse page */
+.browser {
+	width: 80%;
+	margin: 0 auto;
+}
+.redirectAction {
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.redirectAction a {
+	color: black;
+	text-decoration: none;
+}
+.redirectAction a:hover {
+	color: #EE6C4D;
+}
+
+/* Create game page */
+input.pseudo {
+	height: 26px;
+	padding: 0 4px;
+	border: 2px solid #EE6C4D;
+}
+input.pseudo:focus {
+	outline: none;
+	box-shadow: 0px 0px 3px black;
+}
+input.submit {
+	height: 30px;
+	padding: 0px 80px;
+	font-weight: bold;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+/* Actual game/play page */
 #game {
 	margin: 0 auto;
 	background-color: lightgrey;
@@ -102,59 +257,11 @@ section.middle {
 	background-color: deepskyblue;
 }
 
-@media (max-width: 700px) {
-	.name {
-		display: none;
-	}
-	.element {
-		width: 100% !important;
-		background-color: #293241;
-		line-height: 56px !important;
-	}
-}
-
-/* Create game page */
-input.pseudo {
-	height: 26px;
-	padding: 0 4px;
-	border: 2px solid #EE6C4D;
-}
-input.pseudo:focus {
-	outline: none;
-	box-shadow: 0px 0px 3px black;
-}
-input.submit {
-	height: 30px;
-	padding: 0px 80px;
-	font-weight: bold;
-	font-size: 20px;
-	cursor: pointer;
-}
-
-/* Game page */
-.loading, .waitForResults {
-	margin: 0 auto;
-	width: 100%;
-	text-align: center;
-	font-size: 32px;
-	font-style: italic;
-	padding-bottom: 26px;
-}
-
-.loading .icon, .waitForResults .icon {
-	width: 40px;
-	height: 40px;
-	margin: 0 auto;
-	padding-top: 16px;
-}
-.loading .icon img { max-height: 100%; max-width: 100%; }
-.waitForResults .icon img { max-height: 100%; max-width: 100%; }
-
-.middle .left {
+.site-main .left {
 	width: calc(30% - 12px);
 	margin-left: 12px;
 }
-.middle .right {
+.site-main .right {
 	width: 70%;
 }
 .linkToGame, .joinButton {
@@ -207,89 +314,11 @@ input.submit {
 	font-size: 16px;
 }
 
-/* Browse page */
-.browser {
-	width: 80%;
-	margin: 0 auto;
-}
-.redirectAction {
-	text-align: center;
-	font-size: 14px;
-	font-weight: bold;
-	cursor: pointer;
-}
-.redirectAction a {
-	color: black;
-	text-decoration: none;
-}
-.redirectAction a:hover {
-	color: #EE6C4D;
-}
 
-/* About page */
-.basicStyle {
-	width: 100%;
-}
-.basicStyle h1 {
-	text-align: center;
-	font-size: 26px;
-	font-style: italic;
-}
-.basicStyle div {
-	margin: 0 30px;
-}
-.about {
-	text-align: center;
-}
-hr.style { 
-	width: 100%;
-	border-top: 3px double #8c8b8b;
-}
-.statsContainer, .social {
-	display: flex;
-	flex-wrap: wrap;
-}
+/*---------------------------------------------------------------------------------*/
+/* Random general classes                                                          */
+/*---------------------------------------------------------------------------------*/
 
-.statistics {
-	padding-bottom: 26px;
-}
-.stats {
-	margin: 0 !important;
-	width: 50%;
-	text-align: center;
-	padding-bottom: 40px;
-	font-size: 20px;
-}
-.stats span {
-	font-weight: bold;
-	color: #EE6C4D;
-}
-.social {
-	margin: 0 !important;
-	height: 120px;
-	background-color: #293241;
-}
-.element {
-	margin: 0 !important;
-	width: 20%;
-	text-align: center;
-	line-height: 120px;
-}
-.element a {
-	color: #e0fbfc;
-	font-size: 20px;
-	font-weight: bold;
-	text-decoration: none;
-}
-.element a:hover { color: #EE6C4D; }
-.element img {
-	width: 20px;
-	position: relative;
-	top: 4px;
-	right: 4px;
-}
-
-/* Random classes */
 .hideBeforeLoad {
 	display: none;
 }

@@ -122,6 +122,10 @@ function onGameData(resp) {
 	$(".hideBeforeLoad").show();
 	$(".linkToGame").hide();
 	$(".joinButton").hide();
+
+	if(!IsJsonString(resp.result)) {
+		return;
+	}
 	var board = JSON.parse(resp.result);
 
 	if(waitingForResult && JSON.stringify(lastBoard)!=JSON.stringify(board)) { // New Results!
@@ -204,6 +208,10 @@ function getListOfGames() {
 }
 
 function onGameList(resp) {
+	if(!IsJsonString(resp.result)) {
+		getListOfGames();
+		return;
+	}
 	var data = JSON.parse(resp.result);
 	$(".loading").hide();
 	$("#gamesTable").show();
@@ -328,4 +336,13 @@ function prettyTime(time) {
 	day_diff < 61 && Math.ceil( day_diff / 7 ) + ' weeks ago' ||
 	day_diff < 730 && Math.floor( day_diff / 30 ) + ' months ago' ||
 	Math.floor( day_diff / 365 ) + ' years ago';
+}
+
+function IsJsonString(str) {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
 }
