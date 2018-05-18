@@ -26,9 +26,32 @@
 			</div>
 		</header>
 		<section class="middle">
-			<section class="about">What is that, why?</section>
-			<section class="stats">Stats!</section>
-			<section class="author">About me</section>
+			<section class="about basicStyle">
+				<h1>What is this "Dots and Boxes" game?</h1>
+				<div>
+					<p>Dots and Boxes is a pencil-and-paper game for two players. It was first published in the 19th century by Édouard Lucas.</p>
+					<p>Starting with an empty grid of dots, two players take turns adding a single horizontal or vertical line between two unjoined adjacent dots. The player who completes the fourth side of a 1×1 box earns one point and takes another turn. The game ends when no more lines can be placed. The winner is the player with the most points.</p>
+				</div>
+			</section>
+			<hr class="style">
+			<section class="statistics basicStyle">
+				<h1>Global statistics</h1>
+				<div class="statsContainer">
+					<div class="stats">Total games played:<br><span id="gamesPlayed">Loading..</span></div>
+					<div class="stats">Games currently in progress:<br><span id="inProgress">Loading..</span></div>
+					<div class="stats">Total bars placed:<br><span id="barPlaced">Loading..</span></div>
+					<div class="stats">Unique players count:<br><span id="playerCount">Loading..</span></div>
+				</div>
+			</section>
+			<section class="author basicStyle">
+				<div class="social">
+					<div class="element"></div>
+					<div class="element"><img src="img/twitter.png"><a href="https://twitter.com/Yayap13">@Yayap13</a></div>
+					<div class="element"><img src="img/github.png"><a href="https://github.com/Yayap13">Github</a></div>
+					<div class="element"><img src="img/reddit.png"><a href="https://www.reddit.com/user/Yayap13">Reddit</div>
+					<div class="element"></div>
+				</div>
+			</section>
 		</section>
 	</div>
 
@@ -40,6 +63,7 @@
 	<script src="js/test.js"></script>
 	<script type="text/javascript">
 		"use strict";
+		getStats();
 	</script>
 
 </body>

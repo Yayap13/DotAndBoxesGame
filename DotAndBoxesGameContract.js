@@ -13,9 +13,10 @@ DotsAndBoxesGameContract.prototype = {
 	init: function() {
 		this.game_id = 1;
 		var currentStats = {};
+		currentStats["uniquePlayers"] = {};
 		currentStats["totalGames"] = 0;
 		currentStats["gamesInProgress"] = 0;
-		currentStats["joinViaMatchmaking"] = 0;
+		currentStats["totalBarPlaced"] = 0;
 		this.stats = currentStats;
 		this.games = {};
 	},
@@ -57,6 +58,7 @@ DotsAndBoxesGameContract.prototype = {
 		var currentStats = this.stats;
 		currentStats.totalGames = currentStats.totalGames+1;
 		currentStats.gamesInProgress = currentStats.gamesInProgress+1;
+		currentStats.uniquePlayers[Blockchain.transaction.from] = Date.now();
 		this.stats = currentStats;
 		this.tx_hash_to_game.put(Blockchain.transaction.hash, board);
 	},
@@ -83,6 +85,9 @@ DotsAndBoxesGameContract.prototype = {
 		board.players[1] = Blockchain.transaction.from;
 		board.playerNames[1] = name;
 		board.state = "In progress";
+		var currentStats = this.stats;
+		currentStats.uniquePlayers[Blockchain.transaction.from] = Date.now();
+		this.stats = currentStats;
 		this.tx_hash_to_game.put(txHash, board);
 	},
 
@@ -157,6 +162,9 @@ DotsAndBoxesGameContract.prototype = {
 				this.games = currentGames;
 			}
 		}
+		var currentStats = this.stats;
+		currentStats.totalBarPlaced = currentStats.totalBarPlaced+1;
+		this.stats = currentStats;
 		this.tx_hash_to_game.put(txHash, board);
 	},
 
@@ -173,6 +181,10 @@ DotsAndBoxesGameContract.prototype = {
 		var games = this.games;
 		games["whoCalled"] = Blockchain.transaction.from;
 		return games
+	},
+
+	getStats: function() {
+		return this.stats
 	},
 }
 

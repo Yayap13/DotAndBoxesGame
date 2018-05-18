@@ -9,7 +9,7 @@ var intervalQuery; //periodically query tx results
 
 
 // Global variables used by our Dapp
-var contract_address = "n1z3psWuLTQFFnBFdwKgMaMrMVLCNHXH6T1";
+var contract_address = "n1sBEsbpmoCgA3GKvMzxRzjEKuPFnTbJTtj";
 var txHash = "lul";
 var firstLoad = true;
 var lastBoard = null;
@@ -83,6 +83,7 @@ function onBarClick(elem) {
 
 function onJoinGame() {
 	$(".join").attr("disabled", true);
+	$(".joinButton").hide();
 	var pseudo = prompt("Please enter your name", "Anonymous");
 	if(pseudo=="")
 		pseudo = "Anonymous";
@@ -253,6 +254,26 @@ function onGameList(resp) {
 		},
 		sortList: [[3,1],[4,0]] 
 	});
+}
+
+// Get data
+function getStats() {
+	nebPay.simulateCall(contract_address, 0, "getStats", "", {
+		qrcode: {
+			showQRCode: false
+		},
+		callback:  callbackUrl,
+		listener: onGameStats  //set listener for extension transaction result
+	});
+}
+
+function onGameStats(resp) {
+	var data = JSON.parse(resp.result);
+	$("#gamesPlayed").html(data.totalGames);
+	$("#inProgress").html(data.gamesInProgress);
+	$("#barPlaced").html(data.totalBarPlaced);
+	$("#playerCount").html(Object.keys(data.uniquePlayers).length);
+	console.log(data);
 }
 
 function createTable(size) {
