@@ -204,7 +204,55 @@ function getListOfGames() {
 
 function onGameList(resp) {
 	var data = JSON.parse(resp.result);
-	console.log(data);
+	$(".loading").hide();
+	$("#gamesTable").show();
+	$("#gamesTable > tbody").empty();
+	$.each(data, function(index, value) {
+		if(value.creator==undefined)
+			return true;
+
+		$("#gamesTable > tbody").append('<tr class="'+index+'"></tr>');
+		$("."+index).append('<td>'+value.creator+'</td>');
+		$("."+index).append('<td>'+value.size+'x'+value.size+'</td>');
+		if(value.waitingForPlayers) {
+			$("."+index).append('<td>1/2</td>');
+		} else {
+			$("."+index).append('<td>2/2</td>');
+		}
+		$("."+index).append('<td value="'+value.creationTime+'">'+prettyTime(value.creationTime)+'</td>');
+		if(value.waitingForPlayers) {
+			$("."+index).append('<td class="redirectAction"><a href="/DotsAndBoxesGame/game.html?id='+index+'">Join</a></td>');
+		} else {
+			$("."+index).append('<td class="redirectAction"><a href="/DotsAndBoxesGame/game.html?id='+index+'">Spectate</a></td>');
+		}
+	});
+
+	// Add a custom parser for the time
+	$.tablesorter.addParser({
+		// set a unique id
+		id: 'time_parser',
+		is: function(s) {
+			// return false so this parser is not auto detected
+			return false;
+		},
+		format: function(s, table, cell) {
+			// format your data for normalization
+			//alert("Debug: value of hidden time: " + $(cell).attr("value"));
+			return $(cell).attr("value");
+		},
+		// set type, either numeric or text
+		type: 'numeric'
+	});
+	$("#gamesTable").tablesorter({
+		theme: "metro-dark",
+		headers: {
+			// assign the secound column (we start counting zero)
+			3: {
+				sorter:'time_parser'
+			}
+		},
+		sortList: [[3,1],[4,0]] 
+	});
 }
 
 function createTable(size) {
@@ -242,4 +290,21 @@ function createTable(size) {
 
 function canPlay() {
 	return (lastBoard.players[1] != null && lastBoard.players[lastBoard.playerTurn] == lastBoard.whoCalled)
+}
+
+function prettyTime(time) {
+	var diff = ((Date.now() - time) / 1000),
+	day_diff = Math.floor(diff / 86400);
+	if ( isNaN(day_diff) || day_diff < 0 ) { return ''; }
+	return day_diff == 0 && (
+	diff < 60 && 'just now' ||
+	diff < 120 && '1 minute ago' ||
+	diff < 3600 && Math.floor( diff / 60 ) + ' minutes ago' ||
+	diff < 7200 && '1 hour ago' ||
+	diff < 86400 && Math.floor( diff / 3600 ) + ' hours ago') ||
+	day_diff == 1 && 'Yesterday' ||
+	day_diff < 7 && day_diff + ' days ago' ||
+	day_diff < 61 && Math.ceil( day_diff / 7 ) + ' weeks ago' ||
+	day_diff < 730 && Math.floor( day_diff / 30 ) + ' months ago' ||
+	Math.floor( day_diff / 365 ) + ' years ago';
 }

@@ -4,7 +4,6 @@
 	<meta charset=utf-8>
 	<title>Dot & Boxes Game - DApp for Nebulas</title>
 	<link rel=stylesheet href=css/main.css>
-	<link rel=stylesheet href=css/theme.metro-dark.css>
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
@@ -27,52 +26,20 @@
 			</div>
 		</header>
 		<section class="middle">
-			<div class="loading">
-				<div>Fetching games list, please wait..</div>
-				<div class="icon"><img class="rotate" src="img/refresh.png"></div>
-			</div>
-			<div class="browser">
-				<table id="gamesTable" cellspacing="0" cellpadding="0" style="display: none;">
-					<thead>
-						<tr>
-							<th><span>Game created by</span></th>
-							<th><span>Arena size</span></th>
-							<th><span>Players</span></th>
-							<th><span>Created at</span></th>
-							<th><span>Action</span></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Anonymous</td>
-							<td>3x3</td>
-							<td>1/2</td>
-							<td>1 min ago</td>
-							<td>Join</td>
-						</tr>
-						<tr>
-							<td>uskadlkas</td>
-							<td>7x7</td>
-							<td>2/2</td>
-							<td>1 hour ago</td>
-							<td>Spectate</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+			<section class="about">What is that, why?</section>
+			<section class="stats">Stats!</section>
+			<section class="author">About me</section>
 		</section>
 	</div>
 
 	<!-- All of these scripts are dependancies from the Nebulas Web Wallet -->
 	<script src=js/jquery-3.3.1.min.js></script>
-	<script src=js/jquery.tablesorter.min.js></script>
 	<script src=js/nebPay.js></script>
 	
 	<!-- Front end logic for our Dapp -->
 	<script src="js/test.js"></script>
 	<script type="text/javascript">
 		"use strict";
-		getListOfGames();
 	</script>
 
 </body>

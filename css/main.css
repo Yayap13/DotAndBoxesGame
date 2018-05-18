@@ -202,8 +202,24 @@ input.submit {
 	font-size: 16px;
 }
 
-
-
+/* Browse page */
+.browser {
+	width: 80%;
+	margin: 0 auto;
+}
+.redirectAction {
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.redirectAction a {
+	color: black;
+	text-decoration: none;
+}
+.redirectAction a:hover {
+	color: #EE6C4D;
+}
 
 
 
