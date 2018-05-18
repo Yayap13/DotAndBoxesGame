@@ -230,9 +230,9 @@ function onGameList(resp) {
 		}
 		$("."+index).append('<td value="'+value.creationTime+'">'+prettyTime(value.creationTime)+'</td>');
 		if(value.waitingForPlayers) {
-			$("."+index).append('<td class="redirectAction"><a href="/DotsAndBoxesGame/game.html?id='+index+'">Join</a></td>');
+			$("."+index).append('<td class="redirectAction"><a href="/game.html?id='+index+'">Join</a></td>');
 		} else {
-			$("."+index).append('<td class="redirectAction"><a href="/DotsAndBoxesGame/game.html?id='+index+'">Spectate</a></td>');
+			$("."+index).append('<td class="redirectAction"><a href="/game.html?id='+index+'">Spectate</a></td>');
 		}
 	});
 

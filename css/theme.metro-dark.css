@@ -6,7 +6,7 @@ Metro Dark Theme
 	width: 100%;
 	font: 12px/18px 'Segoe UI Semilight', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 	color: #000;
-	background-color: #333;
+	background-color: #293241;
 	border-spacing: 0;
 	margin: 10px 0 15px;
 	text-align: left;
@@ -29,7 +29,7 @@ Metro Dark Theme
 	font-weight: 300;
 	font-size: 15px;
 	color: #ddd;
-	background-color: #333;
+	background-color: #293241;
 	padding: 4px;
 }
 
@@ -175,7 +175,7 @@ Metro Dark Theme
 	padding: 4px;
 	background-color: #fff;
 	border: 1px solid #bbb;
-	color: #333;
+	color: #293241;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
