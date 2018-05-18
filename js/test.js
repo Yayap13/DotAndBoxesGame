@@ -2,14 +2,14 @@
 
 var NebPay = require("nebpay");
 var nebPay = new NebPay();
-//var callbackUrl = "https://pay.nebulas.io/api/mainnet/pay";
-var callbackUrl = "https://pay.nebulas.io/api/pay";
+var callbackUrl = "https://pay.nebulas.io/api/mainnet/pay";
+//var callbackUrl = "https://pay.nebulas.io/api/pay";
 var serialNumber; //transaction serial number
 var intervalQuery; //periodically query tx results
 
 
 // Global variables used by our Dapp
-var contract_address = "n1sBEsbpmoCgA3GKvMzxRzjEKuPFnTbJTtj";
+var contract_address = "n1su8FNmrHzV4Un6ipFvBD8ACQto6P1WUpq";
 var txHash = "lul";
 var firstLoad = true;
 var lastBoard = null;
