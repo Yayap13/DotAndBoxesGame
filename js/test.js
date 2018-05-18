@@ -276,6 +276,10 @@ function getStats() {
 }
 
 function onGameStats(resp) {
+	if(!IsJsonString(resp.result)) {
+		getStats();
+		return;
+	}
 	var data = JSON.parse(resp.result);
 	$("#gamesPlayed").html(data.totalGames);
 	$("#inProgress").html(data.gamesInProgress);
