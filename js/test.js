@@ -1,5 +1,7 @@
 "use strict";
 
+testBrowser();
+
 var NebPay = require("nebpay");
 var nebPay = new NebPay();
 var callbackUrl = "https://pay.nebulas.io/api/mainnet/pay";
@@ -349,4 +351,16 @@ function IsJsonString(str) {
 		return false;
 	}
 	return true;
+}
+
+function testBrowser() {
+	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	if(!isChrome) {
+		var address = location.protocol + '//' + location.host + location.pathname;
+		if(address.endsWith("/chrome.html")) {
+			throw new Error('This is not an error. This is just to abort javascript');
+		}
+		address = address.substr(0, address.lastIndexOf("/")) + "/chrome.html";
+		window.location = address;
+	}
 }
